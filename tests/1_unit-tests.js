@@ -32,23 +32,23 @@ suite('Unit Tests', function () {
 
   suite('Equality', function () {
     // #5
-    test('#equal, #notEqual', function () {
-      assert.fail(12, '12', 'Numbers are coerced into strings with ==');
-      assert.fail({ value: 1 }, { value: 1 }, '== compares object references');
-      assert.fail(6 * '2', '12');
-      assert.fail(6 + '2', '12');
+    test.only('#equal, #notEqual', function () {
+      assert.equal(12, '12', 'Numbers are coerced into strings with ==');
+      assert.notEqual({ value: 1 }, { value: 1 }, '== compares object references');
+      assert.equal(6 * '2', '12');
+      assert.notEqual(6 + '2', '12');
     });
     // #6
-    test('#strictEqual, #notStrictEqual', function () {
-      assert.fail(6, '6');
-      assert.fail(6, 3 * 2);
-      assert.fail(6 * '2', 12);
-      assert.fail([1, 'a', {}], [1, 'a', {}]);
+    test.only('#strictEqual, #notStrictEqual', function () {
+      assert.notStrictEqual(6, '6');
+      assert.strictEqual(6, 3 * 2);
+      assert.strictEqual(6 * '2', 12);
+      assert.notStrictEqual([1, 'a', {}], [1, 'a', {}]);
     });
     // #7
-    test('#deepEqual, #notDeepEqual', function () {
-      assert.fail({ a: '1', b: 5 }, { b: 5, a: '1' }, "The order of keys doesn't matter");
-      assert.fail({ a: [5, 6] }, { a: [6, 5] }, 'The order of array elements does matter');
+    test.only('#deepEqual, #notDeepEqual', function () {
+      assert.deepEqual({ a: '1', b: 5 }, { b: 5, a: '1' }, "The order of keys doesn't matter");
+      assert.notDeepEqual({ a: [5, 6] }, { a: [6, 5] }, 'The order of array elements does matter');
     });
   });
 
@@ -60,23 +60,23 @@ suite('Unit Tests', function () {
 
   suite('Comparisons', function () {
     // #8
-    test('#isAbove, #isAtMost', function () {
-      assert.fail('hello'.length, 5);
-      assert.fail(1, 0);
-      assert.fail(Math.PI, 3);
-      assert.fail(1 - Math.random(), 1);
+    test.only('#isAbove, #isAtMost', function () {
+      assert.isAtMost('hello'.length, 5);
+      assert.isAbove(1, 0);
+      assert.isAbove(Math.PI, 3);
+      assert.isAtMost(1 - Math.random(), 1);
     });
     // #9
-    test('#isBelow, #isAtLeast', function () {
-      assert.fail('world'.length, 5);
-      assert.fail(2 * Math.random(), 0);
-      assert.fail(5 % 2, 2);
-      assert.fail(2 / 3, 1);
+    test.only('#isBelow, #isAtLeast', function () {
+      assert.isAtLeast('world'.length, 5);
+      assert.isAtLeast(2 * Math.random(), 0);
+      assert.isBelow(5 % 2, 2);
+      assert.isBelow(2 / 3, 1);
     });
     // #10
-    test('#approximately', function () {
-      assert.fail(weirdNumbers(0.5), 1, 0);
-      assert.fail(weirdNumbers(0.2), 1, 0);
+    test.only('#approximately', function () {
+      assert.approximately(weirdNumbers(0.5), 1, 0.5);
+      assert.approximately(weirdNumbers(0.2), 1, 0.8);
     });
   });
 
@@ -86,14 +86,14 @@ suite('Unit Tests', function () {
   const backendLanguages = ['php', 'python', 'javascript', 'ruby', 'asp'];
   suite('Arrays', function () {
     // #11
-    test('#isArray, #isNotArray', function () {
-      assert.fail('isThisAnArray?'.split(''), 'String.prototype.split() returns an array');
-      assert.fail([1, 2, 3].indexOf(2), 'indexOf returns a number');
+    test.only('#isArray, #isNotArray', function () {
+      assert.isArray('isThisAnArray?'.split(''), 'String.prototype.split() returns an array');
+      assert.isNotArray([1, 2, 3].indexOf(2), 'indexOf returns a number');
     });
     // #12
-    test('Array #include, #notInclude', function () {
-      assert.fail(winterMonths, 'jul', "It's summer in july...");
-      assert.fail(backendLanguages, 'javascript', 'JS is a backend language');
+    test.only('Array #include, #notInclude', function () {
+      assert.notInclude(winterMonths, 'jul', "It's summer in july...");
+      assert.include(backendLanguages, 'javascript', 'JS is a backend language');
     });
   });
 
@@ -104,21 +104,21 @@ suite('Unit Tests', function () {
   };
   suite('Strings', function () {
     // #13
-    test('#isString, #isNotString', function () {
-      assert.fail(Math.sin(Math.PI / 4), 'A float is not a string');
-      assert.fail(process.env.PATH, 'An env variable is a string (or undefined)');
-      assert.fail(JSON.stringify({ type: 'object' }), 'JSON is a string');
+    test.only('#isString, #isNotString', function () {
+      assert.isNotString(Math.sin(Math.PI / 4), 'A float is not a string');
+      assert.isString(process.env.PATH, 'An env variable is a string (or undefined)');
+      assert.isString(JSON.stringify({ type: 'object' }), 'JSON is a string');
     });
     // #14
-    test('String #include, #notInclude', function () {
-      assert.fail('Arrow', 'row', "'Arrow' contains 'row'");
-      assert.fail('dart', 'queue', "But 'dart' doesn't contain 'queue'");
+    test.only('String #include, #notInclude', function () {
+      assert.include('Arrow', 'row', "'Arrow' contains 'row'");
+      assert.notInclude('dart', 'queue', "But 'dart' doesn't contain 'queue'");
     });
     // #15
-    test('#match, #notMatch', function () {
+    test.only('#match, #notMatch', function () {
       const regex = /^#\sname\:\s[\w\s]+,\sage\:\s\d+\s?$/;
-      assert.fail(formatPeople('John Doe', 35), regex);
-      assert.fail(formatPeople('Paul Smith III', 'twenty-four'), regex);
+      assert.match(formatPeople('John Doe', 35), regex);
+      assert.notMatch(formatPeople('Paul Smith III', 'twenty-four'), regex);
     });
   });
 
@@ -142,25 +142,25 @@ suite('Unit Tests', function () {
 
   suite('Objects', function () {
     // #16
-    test('#property, #notProperty', function () {
-      assert.fail(myCar, 'wings', "Cars don't have wings");
-      assert.fail(airlinePlane, 'engines', 'Planes have engines');
-      assert.fail(myCar, 'wheels', 'Cars have wheels');
+    test.only('#property, #notProperty', function () {
+      assert.notProperty(myCar, 'wings', "Cars don't have wings");
+      assert.property(airlinePlane, 'engines', 'Planes have engines');
+      assert.property(myCar, 'wheels', 'Cars have wheels');
     });
     // #17
-    test('#typeOf, #notTypeOf', function () {
-      assert.fail(myCar, 'object');
-      assert.fail(myCar.model, 'string');
-      assert.fail(airlinePlane.wings, 'string');
-      assert.fail(airlinePlane.engines, 'array');
-      assert.fail(myCar.wheels, 'number');
+    test.only('#typeOf, #notTypeOf', function () {
+      assert.typeOf(myCar, 'object');
+      assert.typeOf(myCar.model, 'string');
+      assert.notTypeOf(airlinePlane.wings, 'string');
+      assert.typeOf(airlinePlane.engines, 'array');
+      assert.typeOf(myCar.wheels, 'number');
     });
     // #18
-    test('#instanceOf, #notInstanceOf', function () {
-      assert.fail(myCar, Plane);
-      assert.fail(airlinePlane, Plane);
-      assert.fail(airlinePlane, Object);
-      assert.fail(myCar.wheels, String);
+    test.only('#instanceOf, #notInstanceOf', function () {
+      assert.notInstanceOf(myCar, Plane);
+      assert.instanceOf(airlinePlane, Plane);
+      assert.instanceOf(airlinePlane, Object);
+      assert.notInstanceOf(myCar.wheels, String);
     });
   });
 
